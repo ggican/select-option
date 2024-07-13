@@ -4,8 +4,10 @@ This Repo demonstrates a customized Select component with filtering options base
 
 ## Deploy To Website
 
-- [CHROMATIC](https://www.chromatic.com/component?appId=6691f8d852b1d32f0c8c5a01&csfId=form-select--select-option-label&buildNumber=3&k=6691ffbf6f3d377867f41c2b-1200px-interactive-true&h=20&b=-2)
+- [Chromatic](https://www.chromatic.com/component?appId=6691f8d852b1d32f0c8c5a01&csfId=form-select--select-option-label&buildNumber=3&k=6691ffbf6f3d377867f41c2b-1200px-interactive-true&h=20&b=-2)
 - [Storybook](https://select-option-beta.vercel.app/)
+- [CRA](https://select-option-l8tp.vercel.app/)
+
 
 ## Available Scripts
 
