@@ -20,7 +20,7 @@
     "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "lint:js": "next lint",
+    "lint:js": "npm run lint",
     "lint:css": "stylelint \"**/*.scss\"",
     "format": "prettier --check .",
     "format:fix": "prettier --write --list-different .",
