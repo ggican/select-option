@@ -19,6 +19,8 @@ export type SelectPropsType = {
   optionLabel: string;
   placeholder?: string;
   options: OptionsType[];
+  defaultValue?: OptionsType | OptionsType[];
+  onChange?: (item: OptionsType[] | OptionsType) => void;
   filterOption?: (input: string, option: OptionsType) => boolean;
   onRenderOption?: (values: OptionsType) => React.ReactNode;
 };

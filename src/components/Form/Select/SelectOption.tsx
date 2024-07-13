@@ -29,7 +29,7 @@ const SelectOption = ({
   };
   return (
     <>
-      <div className={`block w-full overflow-auto max-h-[${MAX_HEIGHT_DROPDOWN}px]`}>
+      <div style={{ maxHeight: MAX_HEIGHT_DROPDOWN }} className={`block w-full overflow-auto `}>
         {options && options.length > 0 ? (
           options?.map((item: OptionsType, key: number) => {
             return (

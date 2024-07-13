@@ -3,6 +3,11 @@ import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import useScreenSize from "../../../hooks/usScreenSize";
 import SelectOptionContainer from "./SelectOptionContainer";
+import {
+  DetectBottomPositionResultType,
+  useOnDetectBottomPosition,
+} from "../../../hooks/useOnDetectBottomPosition";
+import { getUniqueObjectWithRemove } from "./getUniqueObjectWithRemove";
 
 export const MAX_HEIGHT_DROPDOWN = 250;
 export const Z_INDEX_DROPDOWN = 1100;
@@ -24,6 +29,8 @@ const Select = (props: SelectPropsType) => {
     portalId,
     onRenderOption,
     filterOption,
+    onChange,
+    defaultValue,
   } = propsWithDefaults;
   const screenSize = useScreenSize();
 
@@ -32,9 +39,10 @@ const Select = (props: SelectPropsType) => {
   const [elementPosition, setElementPosition] = useState<React.CSSProperties>({});
   const [searchInputValue, setSearchInputValue] = useState<string>("");
   const [valuesOption, setValuesOption] = useState<OptionsType[]>([]);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const inputSearchRef = useRef<HTMLInputElement>(null);
+  const positionSelectForm: DetectBottomPositionResultType = useOnDetectBottomPosition(dropdownRef);
 
   useOnClickOutside(dropdownRef, (event) => {
     if (targetRef.current?.contains(event.target as Node)) return;
@@ -42,33 +50,41 @@ const Select = (props: SelectPropsType) => {
     setDisplayDropdown?.(false);
   });
 
-  const handleClickSelectArea = (isClick?: boolean) => {
-    if (isClick && isDisplayDropdown) {
-      return true;
-    }
+  const handleClickSelectArea = (isClick?: boolean, position?: string) => {
     if (dropdownRef?.current) {
-      const element = dropdownRef.current.getBoundingClientRect();
-      const windowsHeight = window.innerHeight;
-      const bottom = element.bottom;
-      const calculatePercentageTop = (bottom / windowsHeight) * 100;
+      const element: DOMRect = dropdownRef.current.getBoundingClientRect();
 
       const coordinate: React.CSSProperties = {
         width: element.width ?? "auto",
         position: portalId === undefined || portalId === "" ? "absolute" : "fixed",
         zIndex: Z_INDEX_DROPDOWN,
         borderRadius: BORDER_RADIUS,
+        flexDirection: "column",
+        display: "flex",
       };
 
-      if (calculatePercentageTop < 65) {
-        coordinate.top =
-          portalId === undefined || portalId === ""
-            ? element.top + element.height + TOP_POSITION_PLUS - 10
-            : element.top + element.height + TOP_POSITION_PLUS + 2;
+      if (portalId === undefined || portalId === "") {
+        if (position === "BOTTOM") {
+          coordinate.bottom = "auto";
+          coordinate.top = "100%";
+          coordinate.flexDirection = "column";
+        }
+        if (position === "TOP") {
+          coordinate.bottom = "100%";
+          coordinate.top = "auto";
+          coordinate.flexDirection = "column-reverse";
+        }
       } else {
-        coordinate.top =
-          portalId === undefined || portalId === ""
-            ? element.top - MAX_HEIGHT_DROPDOWN - TOP_POSITION_PLUS - element.height + 10
-            : element.height + TOP_POSITION_PLUS - 5;
+        if (isClick) {
+          coordinate.top = element.top + element.height + TOP_POSITION_PLUS - 10;
+          // if (position === "BOTTOM") {
+          //   coordinate.top = element.top + element.height + TOP_POSITION_PLUS - 10;
+          // } else {
+          //   const topPosition =
+          //     element.top - MAX_HEIGHT_DROPDOWN - TOP_POSITION_PLUS - element.height + 50;
+          //   coordinate.top = withSearch ? topPosition - element.height : topPosition;
+          // }
+        }
       }
 
       if (portalId === undefined || portalId === "") {
@@ -80,28 +96,18 @@ const Select = (props: SelectPropsType) => {
       }
 
       setElementPosition(coordinate);
-      setDisplayDropdown(true);
+      if (isClick) {
+        setDisplayDropdown(true);
+      }
     }
   };
 
   const onHandleSetValueOption = (item: OptionsType) => {
     setValuesOption((prevState: OptionsType[]) => {
-      return addUniqueObjectWithRemove(prevState, item);
+      return getUniqueObjectWithRemove(prevState, item, multiple);
     });
     if (!multiple) {
       setDisplayDropdown(false);
-    }
-  };
-  const addUniqueObjectWithRemove = (array: OptionsType[], objectToAdd: OptionsType) => {
-    if (!multiple) {
-      return [objectToAdd];
-    }
-    const isSelected = array.some((item) => item?.value === objectToAdd?.value);
-
-    if (isSelected) {
-      return array.filter((item) => item.value !== objectToAdd.value);
-    } else {
-      return [...array, objectToAdd];
     }
   };
 
@@ -132,13 +138,16 @@ const Select = (props: SelectPropsType) => {
       if (inputSearchRef?.current) {
         inputSearchRef?.current?.focus();
       }
-      document.addEventListener("wheel", () => handleClickSelectArea(false));
+      document.addEventListener("scroll", () => handleClickSelectArea(false, positionSelectForm));
     }
     return () => {
       setOptionsData([]);
-      document.removeEventListener("wheel", () => handleClickSelectArea(false));
+      document.removeEventListener("scroll", () =>
+        handleClickSelectArea(false, positionSelectForm),
+      );
     };
-  }, [isDisplayDropdown]);
+    // eslint-disable-next-line
+  }, [isDisplayDropdown, positionSelectForm]);
 
   useEffect(() => {
     if (filterOption) {
@@ -158,13 +167,34 @@ const Select = (props: SelectPropsType) => {
     return () => {
       setOptionsData(options);
     };
+    // eslint-disable-next-line
   }, [searchInputValue, options]);
+
+  useEffect(() => {
+    if (multiple) {
+      onChange?.(valuesOption);
+    } else {
+      onChange?.(valuesOption[0]);
+    }
+    // eslint-disable-next-line
+  }, [valuesOption]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      if (Array.isArray(defaultValue)) {
+        setValuesOption(defaultValue);
+      } else {
+        setValuesOption(defaultValue?.value === "" ? [] : [defaultValue]);
+      }
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
       <div
         ref={dropdownRef}
-        onClick={() => handleClickSelectArea(true)}
+        onClick={() => handleClickSelectArea(true, positionSelectForm)}
         className="block w-full relative"
       >
         <div className="select-form border bg-white rounded-md block w-full  min-h-[40px]">
@@ -172,14 +202,14 @@ const Select = (props: SelectPropsType) => {
             {valuesOption && valuesOption && valuesOption?.length > 0 ? (
               <>
                 {multiple ? (
-                  <ul className="block w-full pr-[40px]">
+                  <ul className="flex w-full pr-[40px] flex-wrap flex-row">
                     {valuesOption &&
                       valuesOption.length > 0 &&
                       valuesOption?.map((item: OptionsType, key: number) => {
                         return (
                           <li
                             key={key}
-                            className="inline-flex mr-[10px] items-center rounded-full bg-slate-50 py-1 px-2"
+                            className="inline-flex mr-[5px] items-center rounded-full bg-slate-50 py-1 px-2"
                           >
                             <span className="text-[14px] mr-2 text-gray-600">
                               {item[optionLabel]}
@@ -234,37 +264,39 @@ const Select = (props: SelectPropsType) => {
               </svg>
             </div>
           </div>
-          {portalId === undefined || portalId === ""
-            ? isDisplayDropdown && (
-                <SelectOptionContainer
-                  onRenderOption={onRenderOption}
-                  targetRef={targetRef}
-                  elementPosition={elementPosition}
-                  inputSearchRef={inputSearchRef}
-                  withSearch={withSearch}
-                  onSearch={handleOnChangeSearch}
-                  searchValue={searchInputValue}
-                  options={optionsData}
-                  valuesOption={valuesOption}
-                  optionLabel={optionLabel}
-                  handleOnClickOption={handleOnClickOption}
-                />
-              )
-            : isDisplayDropdown && (
-                <SelectOptionContainer
-                  onRenderOption={onRenderOption}
-                  targetRef={targetRef}
-                  elementPosition={elementPosition}
-                  inputSearchRef={inputSearchRef}
-                  withSearch={withSearch}
-                  onSearch={handleOnChangeSearch}
-                  searchValue={searchInputValue}
-                  options={optionsData}
-                  valuesOption={valuesOption}
-                  optionLabel={optionLabel}
-                  handleOnClickOption={handleOnClickOption}
-                />
-              )}
+          <div id="scrollArea">
+            {portalId === undefined || portalId === ""
+              ? isDisplayDropdown && (
+                  <SelectOptionContainer
+                    onRenderOption={onRenderOption}
+                    targetRef={targetRef}
+                    elementPosition={elementPosition}
+                    inputSearchRef={inputSearchRef}
+                    withSearch={withSearch}
+                    onSearch={handleOnChangeSearch}
+                    searchValue={searchInputValue}
+                    options={optionsData}
+                    valuesOption={valuesOption}
+                    optionLabel={optionLabel}
+                    handleOnClickOption={handleOnClickOption}
+                  />
+                )
+              : isDisplayDropdown && (
+                  <SelectOptionContainer
+                    onRenderOption={onRenderOption}
+                    targetRef={targetRef}
+                    elementPosition={elementPosition}
+                    inputSearchRef={inputSearchRef}
+                    withSearch={withSearch}
+                    onSearch={handleOnChangeSearch}
+                    searchValue={searchInputValue}
+                    options={optionsData}
+                    valuesOption={valuesOption}
+                    optionLabel={optionLabel}
+                    handleOnClickOption={handleOnClickOption}
+                  />
+                )}
+          </div>
         </div>
       </div>
     </>

@@ -3,7 +3,7 @@ import { SelectInputSearchPropsType } from "./Select.types";
 const SelectInputSearch = ({ inputSearchRef, onSearch }: SelectInputSearchPropsType) => {
   return (
     <>
-      <div className="form--input-element relative block w-full  border-b">
+      <div className="form--input-element relative block w-full border-b border-t">
         <div className="absolute top-0 left-0 pl-2 pr-2 bottom-0 flex justify-center items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
