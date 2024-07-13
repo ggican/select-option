@@ -17,7 +17,7 @@
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "husky",
+    "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "lint:js": "next lint",
