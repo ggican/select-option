@@ -18,7 +18,7 @@ export default [
     },
     overrides: [
       {
-        files: ["*.config.ts", "*.config.js"],
+        files: ["**.config.ts", "**.config.js"],
         parserOptions: {
           sourceType: "module",
         },
