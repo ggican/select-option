@@ -20,7 +20,8 @@
     "build-storybook": "storybook build",
     "prepare": "husky",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "check-all": "npm run type-check && npm run lint:js && npm run lint:css && npm run format && npm test:ci"
   },
   "eslintConfig": {
     "extends": [
