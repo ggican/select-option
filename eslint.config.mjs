@@ -16,5 +16,13 @@ export default [
       ...pluginReactConfig?.rules,
       "react/react-in-jsx-scope": 0,
     },
+    overrides: [
+      {
+        files: ["*.config.ts", "*.config.js"],
+        parserOptions: {
+          sourceType: "module",
+        },
+      },
+    ],
   }),
 ];
