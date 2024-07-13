@@ -12,6 +12,7 @@ export default [
   ...tseslint.configs.recommended,
   ...fixupConfigRules({
     ...pluginReactConfig,
+    ignorePatterns: ["*.config.js", "**.config.js"],
     rules: {
       ...pluginReactConfig?.rules,
       "react/react-in-jsx-scope": 0,
