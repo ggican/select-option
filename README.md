@@ -7,7 +7,6 @@ This Repo demonstrates a customized Select component with filtering options base
 - [CHROMATIC](https://www.chromatic.com/component?appId=6691f8d852b1d32f0c8c5a01&csfId=form-select--select-option-label&buildNumber=3&k=6691ffbf6f3d377867f41c2b-1200px-interactive-true&h=20&b=-2)
 - [Storybook](https://select-option-beta.vercel.app/)
 
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -83,7 +82,6 @@ Runs Chromatic for UI component testing.
 
 In your React application, you can render the `SelectOnFilterOption` Story component. It provides a Select component with the following props:
 
-
 - `size`: Specifies the size of the Select component.
 - `withSearch`: Enables search functionality within the Select component.
 - `portalId`: Enables portalId functionality within the Select component.
@@ -94,14 +92,16 @@ In your React application, you can render the `SelectOnFilterOption` Story compo
 ### Example
 
 ```jsx
-export const Default = () => <Select  
-    name="input" 
-    type="text" 
-    optionLabel="label" 
-    placeholder="Dropdown Form" 
-    size="md" 
-    options={[]}  
-/>;
+export const Default = () => (
+  <Select
+    name="input"
+    type="text"
+    optionLabel="label"
+    placeholder="Dropdown Form"
+    size="md"
+    options={[]}
+  />
+);
 ```
 
 ### Description
@@ -114,5 +114,3 @@ The `SelectO` Story demonstrates a customized `Select` component from your libra
 - **Example Options:** Displays a set of example options with varying lengths and labels for testing the filtering functionality.
 
 This repo is useful for scenarios where you need a Select component with advanced filtering and multi-selection capabilities, tailored to fit specific user interaction patterns in your application.
-
-
