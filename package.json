@@ -24,6 +24,7 @@
     "lint:css": "stylelint \"**/*.scss\"",
     "format": "prettier --check .",
     "format:fix": "prettier --write --list-different .",
+    "type-check": "tsc --pretty --noEmit",
     "test:ci": "TZ=Asia/Jakarta jest --coverage jest --coverage",
     "check-all": "npm run type-check && npm run lint:js && npm run lint:css && npm run format && npm test:ci"
   },
