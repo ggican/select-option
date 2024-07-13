@@ -1,8 +1,0 @@
-node_modules/
-build/
-dist/
-*.config.js
-**.config.js
-*.config.ts
-**.config.ts
-tailwind.config.js
