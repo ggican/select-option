@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Select Option
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This Repo demonstrates a customized Select component with filtering options based on input text.
+
+## Deploy To Website
+
+- [CHROMATIC](https://www.chromatic.com/component?appId=6691f8d852b1d32f0c8c5a01&csfId=form-select--select-option-label&buildNumber=3&k=6691ffbf6f3d377867f41c2b-1200px-interactive-true&h=20&b=-2)
+- [Storybook](https://select-option-beta.vercel.app/)
+
 
 ## Available Scripts
 
@@ -8,39 +14,105 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm test`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Launches the test runner.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
 If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Storybook
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### `npm run storybook`
 
-## Learn More
+Runs Storybook in development mode.\
+Open [http://localhost:6006](http://localhost:6006) to view it in the browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### `npm run build-storybook`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Builds Storybook for production to the `storybook-static` folder.
+
+### Code Quality
+
+#### `npm run lint`
+
+Runs ESLint.
+
+#### `npm run lint:fix`
+
+Runs ESLint and fixes issues.
+
+#### `npm run format`
+
+Checks formatting using Prettier.
+
+#### `npm run format:fix`
+
+Formats files using Prettier.
+
+#### `npm run type-check`
+
+Checks TypeScript types.
+
+### Continuous Integration
+
+#### `npm run test:ci`
+
+Runs tests with coverage.
+
+#### `npm run check-all`
+
+Runs type-check, linting, and formatting checks.
+
+### Chromatic
+
+#### `npm run chromatic`
+
+Runs Chromatic for UI component testing.
+
+## Usage
+
+In your React application, you can render the `SelectOnFilterOption` Story component. It provides a Select component with the following props:
+
+
+- `size`: Specifies the size of the Select component.
+- `withSearch`: Enables search functionality within the Select component.
+- `portalId`: Enables portalId functionality within the Select component.
+- `multiple`: Allows multiple selections.
+- `optionLabel`: Defines the label for the options.
+- `options`: An array of objects representing selectable options.
+
+### Example
+
+```jsx
+export const Default = () => <Select  
+    name="input" 
+    type="text" 
+    optionLabel="label" 
+    placeholder="Dropdown Form" 
+    size="md" 
+    options={[]}  
+/>;
+```
+
+### Description
+
+The `SelectO` Story demonstrates a customized `Select` component from your library with enhanced filtering capabilities based on user input. Key features include:
+
+- **Custom Filter Functionality:** The `filterOption` prop is used to customize how options are filtered based on user input.
+- **Multiple Selection:** Enables users to select multiple options simultaneously (`multiple: true`).
+- **Search Functionality:** Includes a search input within the Select component (`withSearch: true`) for easy option discovery.
+- **Example Options:** Displays a set of example options with varying lengths and labels for testing the filtering functionality.
+
+This repo is useful for scenarios where you need a Select component with advanced filtering and multi-selection capabilities, tailored to fit specific user interaction patterns in your application.
+
+

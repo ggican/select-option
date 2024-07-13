@@ -25,7 +25,8 @@
     "format:fix": "prettier --write --list-different .",
     "type-check": "tsc --pretty --noEmit",
     "test:ci": "TZ=Asia/Jakarta jest --coverage jest --coverage",
-    "check-all": "npm run type-check && npm run lint:js && npm run format"
+    "check-all": "npm run type-check && npm run lint:js && npm run format",
+    "chromatic": "npx chromatic --project-token=$TOKEN_CHROMATIC"
   },
   "eslintConfig": {
     "extends": [
@@ -69,11 +70,12 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "chromatic": "^11.5.5",
     "eslint": "^8",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-storybook": "^0.8.0",
-    "eslint-plugin-prettier": "^5.1.3",
     "globals": "^15.8.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",

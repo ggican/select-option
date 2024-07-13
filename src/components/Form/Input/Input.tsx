@@ -10,13 +10,13 @@ const Input = (props: InputPropsType) => {
   const { name, type, size, block } = propsWithDefaults;
 
   const inputClasses = classNames(
-    `inline-flex border bg-white rounded-md ${INPUT_SIZE[size as "sm" | "md" | "lg"]}`,
+    `block border bg-white rounded-md ${INPUT_SIZE[size as "sm" | "md" | "lg"]}`,
     {
       "w-full block": block,
     },
   );
 
-  const parentInputClasses = classNames(`inline-flex border bg-white rounded-md`, {
+  const parentInputClasses = classNames(`flex border bg-white rounded-md`, {
     "w-full block": block,
   });
 
